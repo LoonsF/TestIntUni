@@ -19,3 +19,25 @@ def test_get_materia_by_id_integration(client, materia_data):
     response = client.get(f"/materias/{materia_id}")
     assert response.status_code == 200
     assert response.json()["id"] == materia_id
+    
+def test_update_materia_integration(client, materia_data):
+    create_response = client.post("/materias/", json=materia_data)
+    materia_id = create_response.json()["id"]
+    
+    update_data = {"nombre": "Física Avanzada"}
+    response = client.put(f"/materias/{materia_id}", json=update_data)
+    
+    assert response.status_code == 200
+    assert response.json()["nombre"] == "Física Avanzada"
+    assert response.json()["codigo"] == materia_data["codigo"]
+
+def test_delete_materia_integration(client, materia_data):
+    create_response = client.post("/materias/", json=materia_data)
+    materia_id = create_response.json()["id"]
+    
+    response = client.delete(f"/materias/{materia_id}")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Materia eliminada correctamente"
+    
+    get_response = client.get(f"/materias/{materia_id}")
+    assert get_response.status_code == 404
