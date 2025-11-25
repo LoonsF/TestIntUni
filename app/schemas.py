@@ -9,6 +9,10 @@ class AlumnoBase(BaseModel):
 class AlumnoCreate(AlumnoBase):
     pass
 
+class AlumnoUpdate(BaseModel):
+    nombre: Optional[str] = None
+    email: Optional[str] = None
+
 class Alumno(AlumnoBase):
     id: int
     created_at: datetime
@@ -22,6 +26,10 @@ class MateriaBase(BaseModel):
 
 class MateriaCreate(MateriaBase):
     pass
+
+class MateriaUpdate(BaseModel):
+    nombre: Optional[str] = None
+    codigo: Optional[str] = None
 
 class Materia(MateriaBase):
     id: int
@@ -39,6 +47,13 @@ class TareaBase(BaseModel):
 
 class TareaCreate(TareaBase):
     pass
+
+class TareaUpdate(BaseModel):
+    titulo: Optional[str] = None
+    descripcion: Optional[str] = None
+    calificacion: Optional[float] = None
+    alumno_id: Optional[int] = None
+    materia_id: Optional[int] = None
 
 class Tarea(TareaBase):
     id: int

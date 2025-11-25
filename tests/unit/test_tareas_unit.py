@@ -19,3 +19,23 @@ def test_update_tarea_calificacion(db_session, tarea_data):
     created = crud.create_tarea(db_session, tarea)
     updated = crud.update_tarea_calificacion(db_session, created.id, 9.5)
     assert updated.calificacion == 9.5
+
+def test_update_tarea(db_session, tarea_data):
+    tarea = schemas.TareaCreate(**tarea_data)
+    created = crud.create_tarea(db_session, tarea)
+    
+    update_data = schemas.TareaUpdate(titulo="Tarea Actualizada")
+    updated = crud.update_tarea(db_session, created.id, update_data)
+    
+    assert updated.titulo == "Tarea Actualizada"
+    assert updated.descripcion == tarea_data["descripcion"]
+
+def test_delete_tarea(db_session, tarea_data):
+    tarea = schemas.TareaCreate(**tarea_data)
+    created = crud.create_tarea(db_session, tarea)
+    
+    success = crud.delete_tarea(db_session, created.id)
+    assert success is True
+    
+    deleted = crud.get_tarea(db_session, created.id)
+    assert deleted is None
